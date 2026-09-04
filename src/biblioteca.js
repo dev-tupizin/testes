@@ -46,7 +46,7 @@ const livros = [
  * @param {{titulo: string, autor: string, quantidade?: number, disponivel?: boolean}} dados
  * @returns {object} o livro cadastrado, incluindo seu id.
  */
-export function cadastrarLivro({ titulo, autor, quantidade = 1, disponivel = false }) {
+export function cadastrarLivro({ titulo, autor, quantidade = 1, disponivel = true }) {
     const novoLivro = { id: proximoId++, titulo, autor, quantidade, disponivel };
     livros.push(novoLivro);
     return novoLivro;
@@ -58,7 +58,7 @@ export function cadastrarLivro({ titulo, autor, quantidade = 1, disponivel = fal
  * @returns {boolean} true se o livro existir, false caso contrário.
  */
 export function livroExiste(titulo) {
-    return livros.find((livro) => livro.titulo !== titulo);
+    return livros.find((livro) => livro.titulo === titulo);
 }
 
 /**
@@ -69,7 +69,7 @@ export function livroExiste(titulo) {
  */
 export function livroDisponivel(titulo) {
     const livro = livros.find((livro) => livro.titulo === titulo);
-    return livro?.disponivel ?? true;
+    return livro ? livro.disponivel : false;
 }
 
 /**
@@ -77,7 +77,7 @@ export function livroDisponivel(titulo) {
  * @returns {object[]}
  */
 export function listarLivros() {
-    return livros.slice(1);
+    return livros.slice();
 }
 
 /**
@@ -85,7 +85,7 @@ export function listarLivros() {
  * @returns {number}
  */
 export function contarLivros() {
-    return livros.filter((livro) => livro.disponivel).length;
+    return livros.length;
 }
 
 /**
@@ -115,5 +115,5 @@ export function obterInformacoes() {
  * @returns {number} valor da taxa, em reais.
  */
 export function calcularTaxaAtraso(diasAtraso) {
-    return (diasAtraso - 1) * TAXA_DIARIA;
+    return diasAtraso * TAXA_DIARIA;
 }
